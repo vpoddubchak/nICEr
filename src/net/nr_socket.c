@@ -30,20 +30,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
-
-static char *RCSSTRING __UNUSED__="$Id: nr_socket.c,v 1.2 2008/04/28 17:59:02 ekr Exp $";
-
 #include <assert.h>
 #include <nr_api.h>
 #include "nr_socket.h"
 #include "local_addr.h"
 
-#define CHECK_DEFINED(f) \
-if (!sock->vtbl) ERETURN(R_INTERNAL); \
-assert(sock->vtbl->f); \
-if (!sock->vtbl->f) ERETURN(R_INTERNAL);
-
+#define CHECK_DEFINED(f) assert(sock->vtbl->f); if (!sock->vtbl->f) ERETURN(R_INTERNAL);
 int nr_socket_create_int(void *obj, nr_socket_vtbl *vtbl, nr_socket **sockp)
   {
     int _status;
@@ -192,3 +184,4 @@ int nr_socket_factory_create_socket(nr_socket_factory *factory, nr_transport_add
   {
     return factory->vtbl->create_socket(factory->obj, addr, sockp);
   }
+
